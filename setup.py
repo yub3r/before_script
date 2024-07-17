@@ -11,7 +11,7 @@ options = {
 }
 setup(
     name="running-config-script",
-    version="0.1",
+    version="0.3",
     description="Script para remplazar la configuración de los switches de acceso",
     options=options,
     executables=[Executable("bwd-script.py")],

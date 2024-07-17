@@ -87,6 +87,14 @@ def copy_config_to_device(ip_address, octet_4, username, password, secret, tftp_
                 print(f"{loading_line}")
                 print(f"{ok_line}")
                 print("Copy successfully completed")
+
+                # Guardar la configuración en la memoria para hacerla permanente
+                save_config_command = 'wr'
+                save_output = connection.send_command_timing(save_config_command)
+                if 'OK' in save_output:
+                    print("Configuración guardada correctamente.")
+                else:
+                    print(f"Error al guardar la configuración: {save_output}")
             else:
                 print(f"Resultado de la copia: {output}")
 
