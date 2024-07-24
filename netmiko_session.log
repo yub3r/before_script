@@ -1,15 +1,188 @@
+C
+==========================
+Authorized Access Only!!!
+==========================
+
+WARNING
+THE PROGRAMS AND DATA STORED ON THIS SYSTEM ARE
+LICENSED TO OR ARE PRIVATE PROPERTY OF THIS COMPANY
+AND ARE LAWFULLY AVAILABLE ONLY TO AUTHORIZED USERS
+FOR APPROVED PURPOSES.  UNAUTHORIZED ACCESS TO ANY
+PROGRAM OR DATA ON THIS SYSTEM IS NOT PERMITTED, AND
+ANY UNAUTHORIZED ACCESS BEYOND THIS POINT MAY LEAD
+TO PROSECUTION. THIS SYSTEM MAY BE MONITORED AT ANY
+TIME FOR OPERATIONAL REASONS, THEREFORE, IF YOU ARE
+NOT AN AUTHORIZED USER, DO NOT ATTEMPT TO LOG ON.
+
+ADVERTENCIA
+LOS PROGRAMAS Y DATOS ALMACENADOS EN ESTE SISTEMA SON
+CON LICENCIA O SON PROPIEDAD PRIVADA DE ESTA EMPRESA
+Y ESTÁN LEGALMENTE DISPONIBLES SÓLO PARA USUARIOS AUTORIZADOS
+PARA FINES APROBADOS. ACCESO NO AUTORIZADO A CUALQUIER
+NO SE PERMITE EL PROGRAMA O DATOS EN ESTE SISTEMA, Y
+CUALQUIER ACCESO NO AUTORIZADO MÁS ALLÁ DE ESTE PUNTO PUEDE CONDUCIR
+A LA ACTUACIÓN. ESTE SISTEMA PUEDE SER MONITOREO EN CUALQUIER
+TIEMPO POR RAZONES OPERACIONALES, POR LO TANTO, SI ESTÁ
+NO ES UN USUARIO AUTORIZADO, NO INTENTE INICIAR SESIÓN.
+
+ ______  _          ___
+(____  \(_)  _     / __)
+ ____)  )_ _| |_ _| |__ _____  ____ ____   ___
+|  __  (| (_   _|_   __|____ |/ ___)    \ /___)
+| |__)  ) | | |_  | |  / ___ | |   | | | |___ |
+|______/|_|  \__) |_|  \_____|_|   |_|_|_(___/ #
+
 
 
 User Access Verification
 
 Password: 
-sw1.arg01.bitfarms.com>
-sw1.arg01.bitfarms.com>terminal width 511
-sw1.arg01.bitfarms.com>terminal length 0
-sw1.arg01.bitfarms.com>
-sw1.arg01.bitfarms.com>
-sw1.arg01.bitfarms.com>enable
+sw336.par02.bitfarms.com>
+sw336.par02.bitfarms.com>terminal width 511
+sw336.par02.bitfarms.com>terminal length 0
+sw336.par02.bitfarms.com>
+sw336.par02.bitfarms.com>
+sw336.par02.bitfarms.com>enable
 Password: 
-sw1.arg01.bitfarms.com#
-sw1.arg01.bitfarms.com#
-sw1.arg01.bitfarms.com#exit
+sw336.par02.bitfarms.com#
+sw336.par02.bitfarms.com#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/1
+Interface FastEthernet0/1 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/2
+Interface FastEthernet0/2 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/3
+Interface FastEthernet0/3 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/4
+Interface FastEthernet0/4 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/5
+Interface FastEthernet0/5 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/6
+Interface FastEthernet0/6 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/7
+Interface FastEthernet0/7 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/8
+Interface FastEthernet0/8 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/9
+Interface FastEthernet0/9 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/10
+Interface FastEthernet0/10 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/11
+Interface FastEthernet0/11 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/12
+Interface FastEthernet0/12 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/13
+Interface FastEthernet0/13 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/14
+Interface FastEthernet0/14 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/15
+Interface FastEthernet0/15 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/16
+Interface FastEthernet0/16 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/17
+Interface FastEthernet0/17 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/18
+Interface FastEthernet0/18 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/19
+Interface FastEthernet0/19 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/20
+Interface FastEthernet0/20 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/21
+Interface FastEthernet0/21 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/22
+Interface FastEthernet0/22 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/23
+Interface FastEthernet0/23 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/24
+Interface FastEthernet0/24 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/25
+Interface FastEthernet0/25 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/26
+Interface FastEthernet0/26 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/27
+Interface FastEthernet0/27 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/28
+Interface FastEthernet0/28 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/29
+Interface FastEthernet0/29 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/30
+Interface FastEthernet0/30 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/31
+Interface FastEthernet0/31 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/32
+Interface FastEthernet0/32 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/33
+Interface FastEthernet0/33 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/34
+Interface FastEthernet0/34 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/35
+Interface FastEthernet0/35 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/36
+Interface FastEthernet0/36 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/37
+Interface FastEthernet0/37 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/38
+Interface FastEthernet0/38 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/39
+Interface FastEthernet0/39 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/40
+Interface FastEthernet0/40 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/41
+Interface FastEthernet0/41 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/42
+Interface FastEthernet0/42 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/43
+Interface FastEthernet0/43 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/44
+Interface FastEthernet0/44 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/45
+Interface FastEthernet0/45 set to default configuration
+sw336.par02.bitfarms(config)#default interface FastEthernet 0/46
+Interface FastEthernet0/46 set to default configuration
+sw336.par02.bitfarms(config)#end
+sw336.par02.bitfarms.com#copy tftp: running-config
+Address or name of remote host []? 192.168.233.254
+Source filename []? sw336.par02.bitfarms.com.ios
+Destination filename [running-config]? 
+Accessing tftp://192.168.233.254/sw336.par02.bitfarms.com.ios...
+Loading sw336.par02.bitfarms.com.ios from 192.168.233.254 (via Vlan5): !
+[OK - 14220 bytes]
+
+ switchport trunk encapsulation dot1q
+                  ^
+% Invalid input detected at '^' marker.
+
+ switchport trunk encapsulation dot1q
+                  ^
+% Invalid input detected at '^' marker.
+
+ switchport trunk encapsulation dot1q
+                  ^
+% Invalid input detected at '^' marker.
+
+ switchport trunk encapsulation dot1q
+                  ^
+% Invalid input detected at '^' marker.
+
+ switchport trunk encapsulation dot1q
+                  ^
+% Invalid input detected at '^' marker.
+
+ no ip mroute-cache
+        ^
+% Invalid input detected at '^' marker.
+
+ no ip mroute-cache
+        ^
+% Invalid input detected at '^' marker.
+
+ip classless
+   ^
+% Invalid input detected at '^' marker.
+
+14220 bytes copied in 9.370 secs (1518 bytes/sec)
+sw336.par02.bitfarms.com#reload
+
+System configuration has been modified. Save? [yes/no]: yes
+Building configuration...
+[OK]....exit

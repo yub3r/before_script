@@ -1,2 +1,6 @@
-python-dotenv
+paramiko==2.10.4
+cryptography==3.3.2
 netmiko
+python-dotenv
+cx_Freeze
+lief==0.14.1

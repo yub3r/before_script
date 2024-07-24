@@ -3,6 +3,7 @@ import socket
 import subprocess
 from netmiko import ConnectHandler
 from dotenv import load_dotenv
+import time
 
 # Carga las variables de entorno del archivo .env
 load_dotenv('pswd.env')
@@ -12,21 +13,28 @@ USERNAME = os.getenv('SWITCH_USERNAME')
 PASSWORD = os.getenv('SWITCH_PASSWORD')
 ENABLE_PASSWORD = os.getenv('SWITCH_ENABLE_PASSWORD')
 SESSION_LOG = 'netmiko_session.log'
+TFTP_SERVER = '192.168.233.254'
 
 def is_valid_ip(ip):
     try:
-        octets = ip.split('.')
-        if len(octets) != 4:
-            return False
-        for octet in octets:
-            if not 0 <= int(octet) <= 255:
-                return False
         socket.inet_aton(ip)
         return True
-    except (socket.error, ValueError):
+    except socket.error:
         return False
 
 socket.setdefaulttimeout(30)
+
+
+
+def send_default_commands(connection):
+    """Enviar comandos default a las interfaces FastEthernet 0/1 a 0/46."""
+    print("Inciando limpieza de Interfaces FastEthernet 0/1 a 0/46.")
+    connection.send_command_expect('configure terminal', expect_string=r'\(config\)#')
+    for i in range(1, 47):
+        print(f"Enviando comando: default interface FastEthernet 0/{i}")
+        connection.send_command_expect(f'default interface FastEthernet 0/{i}', expect_string=r'\(config\)#')
+    connection.send_command_expect('end', expect_string=r'#')
+    print("Limpieza Culminada.\n")
 
 def is_tftp_server_accessible(tftp_server, port=69):
     """Intenta conectar al servidor TFTP en el puerto especificado para verificar su accesibilidad."""
@@ -34,20 +42,13 @@ def is_tftp_server_accessible(tftp_server, port=69):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:  # TFTP usa UDP
             sock.settimeout(10)  # Timeout después de 10 segundos
             sock.connect((tftp_server, port))
+            print(f"Server TFTP: {tftp_server} accesible.")  # Mensaje de éxito
             return True
     except socket.error as e:
         print(f"No se pudo conectar al servidor TFTP {tftp_server} en el puerto {port}: {e}")
         return False
 
-def copy_config_to_device(ip_address, octet_4, username, password, secret, tftp_server):
-    device = {
-        'device_type': 'cisco_ios_telnet',
-        'ip': ip_address,
-        'username': username,
-        'password': password,
-        'secret': secret,
-    }
-
+def copy_config_to_device(connection, ip_address, octet_4, tftp_server):
     # Sumar 320 al cuarto octeto para el nombre del archivo
     octet_4_adjusted = octet_4 + 320
     config_file = f'sw{octet_4_adjusted}.par02.bitfarms.com.ios'
@@ -58,45 +59,44 @@ def copy_config_to_device(ip_address, octet_4, username, password, secret, tftp_
         return
 
     try:
-        with ConnectHandler(**device) as connection:
-            connection.enable()
+        connection.enable()
 
-            # Comprobar la conectividad con el servidor TFTP
-            ping_command = f"ping {tftp_server}"
-            ping_output = connection.send_command_timing(ping_command)
-            if "!!!!" not in ping_output:
-                print(f"No se puede hacer ping al servidor TFTP desde {ip_address}. Abortando.")
-                return
+        # Enviar comandos default a las interfaces
+        send_default_commands(connection)
 
-            # Iniciar el comando de copia
-            copy_command = 'copy tftp: running-config'
-            output = connection.send_command_timing(copy_command)
-            if 'Address or name of remote host []?' in output:
-                output += connection.send_command_timing(tftp_server + '\n')
-            if 'Source filename []?' in output:
-                output += connection.send_command_timing(config_file + '\n')
-            if 'Destination filename [running-config]?' in output:
-                output += connection.send_command_timing('\n')  # Enter para confirmar el destino por defecto
+        # Iniciar el comando de copia
+        print(f"Iniciando copia de configuración desde TFTP en {ip_address}")
+        copy_command = 'copy tftp: running-config'
+        output = connection.send_command_timing(copy_command)
+        if 'Address or name of remote host []?' in output:
+            output += connection.send_command_timing(tftp_server + '\n')
+        if 'Source filename []?' in output:
+            output += connection.send_command_timing(config_file + '\n')
+        if 'Destination filename [running-config]?' in output:
+            output += connection.send_command_timing('\n')  # Enter para confirmar el destino por defecto
 
-            # Procesar y mostrar el resultado de la copia
-            if 'Accessing' in output and 'Loading' in output and '[OK' in output:
-                access_line = output.split('\n')[0]
-                loading_line = output.split('\n')[1]
-                ok_line = [line for line in output.split('\n') if '[OK' in line][0]
-                print(f"{access_line}")
-                print(f"{loading_line}")
-                print(f"{ok_line}")
-                print("Copy successfully completed")
+        # Esperar a que el archivo se cargue completamente
+        output += connection.send_command_timing('\n', delay_factor=7)
+        print(output)  # Agregar depuración
 
-                # Guardar la configuración en la memoria para hacerla permanente
-                save_config_command = 'wr'
-                save_output = connection.send_command_timing(save_config_command)
-                if 'OK' in save_output:
-                    print("Configuración guardada correctamente.")
-                else:
-                    print(f"Error al guardar la configuración: {save_output}")
-            else:
-                print(f"Resultado de la copia: {output}")
+        try:
+            # Guardar la configuración y reiniciar el dispositivo
+            print(f"Guardando configuración y reiniciando el dispositivo {ip_address}")
+            reload_command = 'reload'
+            save_prompt = 'System configuration has been modified. Save? [yes/no]:'
+            confirm_prompt = 'Proceed with reload? [confirm]'
+
+            reload_output = connection.send_command_timing(reload_command)
+            #print("Debug - Output of reload command:", reload_output)  # Agregar depuración
+            if save_prompt in reload_output:
+                reload_output += connection.send_command_timing('yes\n', strip_prompt=False)
+            time.sleep(15)  # Esperar mientras el switch escribe en memoria
+            if confirm_prompt in reload_output:
+                reload_output += connection.send_command_timing('\n', strip_prompt=False)
+            
+            print(reload_output)
+        except Exception as e:
+            print(f"Error durante el guardado y reinicio: {e}")
 
     except Exception as e:
         print(f"Error al copiar el archivo de configuración al dispositivo: {e}")
@@ -118,23 +118,16 @@ def run_command(ip_address, octet_4, tftp_server):
             print(f"Sw no disponible en {ip_address}")
             return
 
-        copy_config_to_device(ip_address, octet_4, USERNAME, PASSWORD, ENABLE_PASSWORD, tftp_server)
+        with ConnectHandler(**device) as connection:
+            copy_config_to_device(connection, ip_address, octet_4, tftp_server)
 
-        print(f"Configuración completada en {ip_address}")
+        print(f"Nueva configuración del SWA {ip_address} completada.\n")
     except Exception as e:
         print(f"Error al conectarse a {ip_address}: {e}")
 
 def main():
     directorio_trabajo = os.getcwd()
     print(f"Directorio de trabajo actual: {directorio_trabajo}")
-
-    # Solicitar al usuario la IP del servidor TFTP
-    while True:
-        tftp_server = input("Ingrese la IP del servidor TFTP: ")
-        if is_valid_ip(tftp_server):
-            break
-        else:
-            print("La IP ingresada no es válida. Por favor, intente nuevamente.")
 
     while True:
         start_ip = input("Enter the starting IP address: ")
@@ -160,7 +153,7 @@ def main():
                 ip_address = f"{start_octets[0]}.{start_octets[1]}.{octet_3}.{octet_4}"
                 print(f"Preparando para copiar configuración a: {ip_address}")
 
-                run_command(ip_address, octet_4, tftp_server)
+                run_command(ip_address, octet_4, TFTP_SERVER)
 
         repeat = input("Continue with another SW(s)? (Yes/[No]): ").lower()
         if repeat not in ["yes", "y", ""]:
@@ -178,4 +171,4 @@ def print_log():
 
 if __name__ == "__main__":
     main()
-    # print_log()  # Llama a esta función después de ejecutar main() para imprimir el contenido del log
+    print_log()  # Llama a esta función después de ejecutar main() para imprimir el contenido del log
